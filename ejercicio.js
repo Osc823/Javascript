@@ -6,14 +6,19 @@ class ProductManager {
     return this.products;
   }
   addProduct(product) {
+    //Validar que los esten los campos echos
+
     if (
-      !product.title ||
-      !product.description ||
-      !product.price ||
-      !product.thumbnail ||
-      !product.stock
+      typeof product.title === "undefined" ||
+      typeof product.description === "undefined" ||
+      typeof product.price === "undefined" ||
+      typeof product.thumbnail === "undefined" ||
+      typeof product.stock === "undefined"
     ) {
-      return "Faltan datos por llenar";
+      return console.log(
+        `NOSE PUDO CREAR EL SIGUIENTE PRODUCTO!, Faltan datos por llenar`,
+        product
+      );
     }
     // Generar Codigo
     const code = Math.floor(Math.random() * 900) + 100;
@@ -53,7 +58,7 @@ Products.autoIncrementId = 1;
 // -------- Pruebas ---------
 const newProduct = new ProductManager();
 
-// 1) Crear productos
+//1) Crear productos
 newProduct.addProduct(
   new Products(
     "Zapatillas Nike Air Force",
@@ -72,7 +77,10 @@ newProduct.addProduct(
     22
   )
 );
-console.log('Productos creados con exito!');
+newProduct.addProduct(
+  new Products("Zapatillas comodas color rojo", 10000, "Imagen.url", 2)
+);
+console.log("Productos creados con exito!");
 console.log(newProduct.getProducts());
 
 //2) Buscar producto por Id
