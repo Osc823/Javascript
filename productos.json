@@ -1,0 +1,13 @@
+[
+	{
+		"id": 2,
+		"title": "Zapatillas Adidas",
+		"description": "Zapatillas comodas color rojo",
+		"price": 115000,
+		"thumbnail": "Imagen.url",
+		"code": [
+			517
+		],
+		"stock": 20
+	}
+]
