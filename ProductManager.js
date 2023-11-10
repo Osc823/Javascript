@@ -10,12 +10,15 @@ class ProductManager {
         this.products = JSON.parse(products);
       } catch (error) {
         this.products = [];
+        this.saveFile(); 
       }
     } else {
       this.products = [];
+      this.saveFile(); 
     }
   }
-  getProducts() {
+
+  async getProducts() {
     return this.products;
   }
 
@@ -33,42 +36,50 @@ class ProductManager {
   }
 
   async addProduct(product) {
-    // Generar Codigo
-    const code = Math.floor(Math.random() * 900) + 100;
-    // Validar que el codigo no se repita
-    const codeExists = product.code.find((cod) => cod === code);
-    if (!codeExists) {
-      // Asignamos el codigo al producto
-      product.code.push(code);
+    // Validar que el Id sea incremental
+    product.id = this.products.length + 1;
 
+    // Validar que el code sea pasado por el usuario
+    if (!product.code) {
+      console.log("Error: El código del producto es obligatorio.");
+      return;
+    }
+
+    // Validar que el code no se repita
+    const codeExists = this.products.some((p) => p.code === product.code);
+    if (!codeExists) {
       this.products.push(product);
 
-      const respuesta = await this.saveFile(this.products);
+      const respuesta = await this.saveFile();
 
       if (respuesta) {
         console.log("Producto agregado");
       } else {
         console.log("Hubo un error al agregar el producto");
       }
+    } else {
+      console.log("Error: El código del producto ya existe.");
     }
   }
-  getProductById(id) {
+
+  async getProductById(id) {
     const product = this.products.find((p) => p.id === id);
     return product || "Not found";
   }
+
   async deleteProduct(id) {
-    const index = this.products.findIndex(p => p.id === id);
+    const index = this.products.findIndex((p) => p.id === id);
     if (index !== -1) {
-        this.products.splice(index, 1);
-        try {
-            await this.saveFile();
-            console.log("Producto eliminado");
-        } catch (error) {
-            console.log("Hubo un error al eliminar el producto");
-        }
-    }else {
-        console.log("Producto no encontrado");
+      this.products.splice(index, 1);
+      try {
+        await this.saveFile();
+        console.log("Producto eliminado");
+      } catch (error) {
+        console.log("Hubo un error al eliminar el producto");
       }
+    } else {
+      console.log("Producto no encontrado");
+    }
   }
 
   async updateProduct(id, updateProduct) {
@@ -88,58 +99,70 @@ class ProductManager {
 }
 
 class Products {
-  constructor(title, description, price, thumbnail, stock) {
-    this.id = Products.autoIncrementId++; // Id autoincremental
-    this.title = title; // (Nombre del producto)
+  constructor(title, description, price, thumbnail,code ,stock) {
+    this.id = 0; // Autoincremel
+    this.title = title;
     this.description = description;
     this.price = price;
-    this.thumbnail = thumbnail; // (ruta de imagen)
-    this.code = [];
-    this.stock = stock; // (número de piezas disponibles)
+    this.thumbnail = thumbnail;
+    this.code = code; 
+    this.stock = stock;
   }
 }
 
-// Inicializar el ID autoincremental en la clase Products
-Products.autoIncrementId = 1;
 
 // -------- Pruebas ---------
 
-//1) Crear productos
-const producto1 = new Products(
-  "Zapatillas Nike Air Force",
-  "Zapatillas comodas color negro",
-  125000,
-  "Imagen.url",
-  25
-);
-const producto2 = new Products(
-  "Zapatillas Adidas",
-  "Zapatillas comodas color rojo",
-  115000,
-  "Imagen.url",
-  20
-);
+const Test = async () => {
+  const producto1 = new Products(
+    "Zapatillas Nike Air Force",
+    "Zapatillas cómodas color negro",
+    125000,
+    "Imagen.url",
+    'Asds154',
+    25
+  );
 
-const manager = new ProductManager("./productos.json");
+  const producto2 = new Products(
+    "Zapatillas Adidas",
+    "Zapatillas cómodas color rojo",
+    115000,
+    "Imagen.url",
+    'Asds155',
+    20
+  );
 
-console.log(manager.getProducts());
+  const producto3 = new Products(
+    "Zapatillas PuMa",
+    "Zapatillas Triple A color beige",
+    215000,
+    "Imagen.url",
+    'Asds156',
+    21
+  );
 
-manager.addProduct(producto1);
-manager.addProduct(producto2);
-console.log(manager.getProducts());
+  const manager = new ProductManager("./productos.json");
 
-//2)Actualizar Producto
-manager.updateProduct(1, {
-  title: "Zapatillas Nike Air Force 69",
-  description: "Nuevas zapatillas",
-  price: 130000,
-  thumbnail: "NuevaImagen.url",
-  stock: 30,
-});
+  console.log(await manager.getProducts());
 
-console.log(manager.getProducts());
+  await manager.addProduct(producto1);
+  await manager.addProduct(producto2);
+  await manager.addProduct(producto3);
+  console.log(await manager.getProducts());
 
-console.log("Producto traido por Id: ", manager.getProductById(1));
+  await manager.updateProduct(1, {
+    title: "Zapatillas Nike Air Force 69",
+    description: "Nuevas zapatillas",
+    price: 130000,
+    thumbnail: "NuevaImagen.url",
+    stock: 30,
+  });
 
-//3)Eliminar Producto
-console.log(manager.deleteProduct(1));
+  console.log(await manager.getProducts());
+
+  console.log("Producto traído por Id: ", await manager.getProductById(1));
+
+  // await manager.deleteProduct(1);
+};
+
+Test();

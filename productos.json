@@ -1,13 +1,29 @@
 [
 	{
+		"id": 1,
+		"title": "Zapatillas Nike Air Force 69",
+		"description": "Nuevas zapatillas",
+		"price": 130000,
+		"thumbnail": "NuevaImagen.url",
+		"code": "Asds154",
+		"stock": 30
+	},
+	{
 		"id": 2,
 		"title": "Zapatillas Adidas",
-		"description": "Zapatillas comodas color rojo",
+		"description": "Zapatillas cómodas color rojo",
 		"price": 115000,
 		"thumbnail": "Imagen.url",
-		"code": [
-			517
-		],
+		"code": "Asds155",
 		"stock": 20
+	},
+	{
+		"id": 3,
+		"title": "Zapatillas PuMa",
+		"description": "Zapatillas Triple A color beige",
+		"price": 215000,
+		"thumbnail": "Imagen.url",
+		"code": "Asds156",
+		"stock": 21
 	}
 ]
