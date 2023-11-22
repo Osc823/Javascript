@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs  from "fs";
 
 class ProductManager {
   constructor(path) {
@@ -63,12 +63,12 @@ class ProductManager {
   }
 
   async getProductById(id) {
-    const product = this.products.find((p) => p.id === id);
+    const product = this.products.find((p) => p.id == id);
     return product || "Not found";
   }
 
   async deleteProduct(id) {
-    const index = this.products.findIndex((p) => p.id === id);
+    const index = this.products.findIndex((p) => p.id == id);
     if (index !== -1) {
       this.products.splice(index, 1);
       try {
@@ -83,23 +83,22 @@ class ProductManager {
   }
 
   async updateProduct(id, updateProduct) {
-    const index = this.products.findIndex((p) => p.id === id);
+    console.log('El id que me llega', id);
+    const index = this.products.findIndex((p) => p.id == id);
+    console.log('el index', index);
     if (index !== -1) {
-      // Actualizar solo los campos proporcionados en updateProduct
       this.products[index] = { ...this.products[index], ...updateProduct, id };
       try {
         await this.saveFile();
         console.log("Producto actualizado");
-        return { success: true, message: "Producto actualizado correctamente" };
       } catch (error) {
-        console.error("Hubo un error al actualizar el producto", error);
-        return { success: false, message: "Error al actualizar el producto" };
+        console.log("Hubo un error al actualizar el producto");
       }
     } else {
       console.log("Producto no encontrado");
-      return { success: false, message: "Producto no encontrado" };
     }
   }
+
 }
 
 class Products {
@@ -110,6 +109,7 @@ class Products {
     this.price = price;
     this.thumbnail = thumbnail;
     this.code = code; 
+    this.status = true;
     this.stock = stock;
   }
 }
@@ -118,12 +118,14 @@ class Products {
 // -------- Pruebas ---------
 
 const Test = async () => {
+  
   const producto1 = new Products(
     "Zapatillas Nike Air Force",
     "Zapatillas cómodas color negro",
     125000,
     "Imagen.url",
     'Asds154',
+    'true',
     25
   );
 
@@ -133,6 +135,7 @@ const Test = async () => {
     115000,
     "Imagen.url",
     'Asds155',
+    'true',
     20
   );
 
@@ -142,31 +145,127 @@ const Test = async () => {
     215000,
     "Imagen.url",
     'Asds156',
+    'true',
     21
   );
+  const producto4 = new Products(
+    "Camiseta Polo Ralph Lauren",
+    "Camiseta de algodón con logo bordado",
+    75000,
+    "Imagen.url",
+    'Asds157',
+    'true',
+    15
+);
 
-  const manager = new ProductManager("./productos.json");
+const producto5 = new Products(
+    "Chaqueta Columbia Impermeable",
+    "Chaqueta para exteriores resistente al agua",
+    189000,
+    "Imagen.url",
+    'Asds158',
+    'true',
+    30
+);
 
-  console.log(await manager.getProducts());
+const producto6 = new Products(
+    "Reloj Casio G-Shock",
+    "Reloj resistente a golpes y al agua",
+    98000,
+    "Imagen.url",
+    'Asds159',
+    'true',
+    18
+);
+
+const producto7 = new Products(
+    "Laptop Dell Inspiron",
+    "Laptop con procesador Intel Core i5 y 8GB de RAM",
+    849000,
+    "Imagen.url",
+    'Asds160',
+    'true',
+    12
+);
+
+const producto8 = new Products(
+    "Cámara Canon EOS Rebel",
+    "Cámara DSLR con sensor de 24.1 megapíxeles",
+    520000,
+    "Imagen.url",
+    'Asds161',
+    'true',
+    24
+);
+
+const producto9 = new Products(
+    "Audífonos Sony WH-1000XM4",
+    "Audífonos inalámbricos con cancelación de ruido",
+    329000,
+    "Imagen.url",
+    'Asds162',
+    'true',
+    28
+);
+
+const producto10 = new Products(
+    "Mochila North Face",
+    "Mochila resistente con múltiples compartimentos",
+    125000,
+    "Imagen.url",
+    'Asds163',
+    'true',
+    22
+);
+
+const producto11 = new Products(
+    "Monitor ASUS Gaming",
+    "Monitor LED Full HD de 27 pulgadas con frecuencia de actualización de 144Hz",
+    1799000,
+    "Imagen.url",
+    'Asds164',
+    'true',
+    16
+);
+
+const producto12 = new Products(
+    "Teclado mecánico Corsair",
+    "Teclado para gaming con retroiluminación RGB",
+    189000,
+    "Imagen.url",
+    'Asds165',
+    'true',
+    25
+);
+
+const producto13 = new Products(
+    "Bicicleta de montaña Trek",
+    "Bicicleta con cuadro de aluminio y suspensión delantera",
+    569000,
+    "Imagen.url",
+    'Asds166',
+    'true',
+    19
+);
+
+
+  const manager = new ProductManager("./products.json");
 
   await manager.addProduct(producto1);
   await manager.addProduct(producto2);
   await manager.addProduct(producto3);
-  console.log(await manager.getProducts());
-
-  await manager.updateProduct(1, {
-    title: "Zapatillas Nike Air Force 69",
-    description: "Nuevas zapatillas",
-    price: 130000,
-    thumbnail: "NuevaImagen.url",
-    stock: 30,
-  });
-
-  console.log(await manager.getProducts());
-
-  console.log("Producto traído por Id: ", await manager.getProductById(1));
-  //Descomentar despues de crear, para probar
-  // await manager.deleteProduct(1);
+  await manager.addProduct(producto4);
+  await manager.addProduct(producto5);
+  await manager.addProduct(producto6);
+  await manager.addProduct(producto7);
+  await manager.addProduct(producto8);
+  await manager.addProduct(producto9);
+  await manager.addProduct(producto10);
+  await manager.addProduct(producto11);
+  await manager.addProduct(producto12);
+  await manager.addProduct(producto13);
 };
 
-Test();
+// Test();
+
+export {ProductManager ,Products};
