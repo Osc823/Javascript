@@ -128,59 +128,5 @@
 		"code": "Asds166",
 		"status": true,
 		"stock": "true"
-	},
-	{
-		"id": 14,
-		"title": "Hola soy yo el kin",
-		"description": "of kings",
-		"price": "15",
-		"thumbnail": "OscarSierraCVV1.0.pdf",
-		"code": "AZS-541",
-		"stock": "5"
-	},
-	{
-		"id": 15,
-		"title": "Bienvenidos",
-		"description": "Al limalaya",
-		"price": "15",
-		"thumbnail": "Profile.pdf",
-		"code": "AZS-541",
-		"stock": "6"
-	},
-	{
-		"id": 16,
-		"title": "Dile que ",
-		"description": "Dile que ",
-		"price": "15",
-		"thumbnail": "",
-		"code": "AZS-541",
-		"stock": "4"
-	},
-	{
-		"id": 17,
-		"title": "hOLASA",
-		"description": "",
-		"price": "",
-		"thumbnail": "",
-		"code": "",
-		"stock": ""
-	},
-	{
-		"id": 18,
-		"title": "Otro ",
-		"description": "Siissi Soy yo",
-		"price": "",
-		"thumbnail": "",
-		"code": "",
-		"stock": ""
-	},
-	{
-		"id": 19,
-		"title": "Holas",
-		"description": "asasasas",
-		"price": "",
-		"thumbnail": "",
-		"code": "",
-		"stock": ""
 	}
 ]
